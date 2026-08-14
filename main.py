@@ -3,7 +3,8 @@ import streamlit as st
 from ultralytics import YOLO
 
 # =======LOAD MODEL====== #
-model = YOLO("./best.pt")
+# model = YOLO("./best.pt")
+model = YOLO("./best.onnx", task="classify")
 
 # =======PREDICTION FUNCTION====== #
 def predict(image):
@@ -13,7 +14,6 @@ def predict(image):
     label = result.names[pred_id]
     confidence = result.probs.top1conf
     return label, confidence
-
 
 # =======STREAMLIT APP===== #
 st.set_page_config(page_title='Waste Classifier', page_icon='🤖', layout='wide')
@@ -39,5 +39,4 @@ with col2:
         label, confidence = predict(image)
         st.success(f'Predicted as {label}')
         st.metric(label='Confidence', value=f'{float(confidence):.2%}')
-    
         
