@@ -15,6 +15,7 @@ def predict(image):
     confidence = result.probs.top1conf
     return label, confidence
 
+
 # =======STREAMLIT APP===== #
 st.set_page_config(page_title='Waste Classifier', page_icon='🤖', layout='wide')
 
@@ -35,8 +36,9 @@ with col2:
     else:
         image = Image.open(uploaded_file)
         st.image(image, width=200)
-        
-        label, confidence = predict(image)
+        with st.spinner('Classifying...'):
+            label, confidence = predict(image)
         st.success(f'Predicted as {label}')
         st.metric(label='Confidence', value=f'{float(confidence):.2%}')
+    
         
